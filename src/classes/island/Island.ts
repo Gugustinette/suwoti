@@ -6,8 +6,8 @@ import HexGrassBottom from "./HexGrassBottom";
 import HexGrassUnder from "./HexGrassUnder";
 import { WaterArea } from "./WaterArea";
 
-// const GRID_SIZE = 50;
-const GRID_SIZE = 10;
+const GRID_SIZE = 50;
+// const GRID_SIZE = 10;
 const HEX_RADIUS = 6;
 
 export class Island {
@@ -79,8 +79,8 @@ export class Island {
 		// Populate the grid with HexGrassBottom instances
 		for (let q = 0; q < GRID_SIZE; q++) {
 			for (let r = 0; r < GRID_SIZE; r++) {
-				const x =
-					hexWidth * (q + r / 2) - hexWidth * (GRID_SIZE / 2 + GRID_SIZE / 4);
+				// Proper hexagonal grid positioning with alternating row offsets
+				const x = hexWidth * (q + (r % 2) * 0.5) - hexWidth * (GRID_SIZE / 2);
 				const z = hexHeight * r - hexHeight * (GRID_SIZE / 2);
 				const hex = new HexGrassBottom({
 					position: { x, y: noiseGrid[q][r] * 100, z },
