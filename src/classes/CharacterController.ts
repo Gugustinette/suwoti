@@ -35,7 +35,12 @@ export class CharacterController extends FCharacterControllerKP {
 				}
 			}
 
-			new Projectile(options);
+			const projectile = new Projectile(options);
+
+			setTimeout(() => {
+				// Remove the projectile after 3 seconds
+				projectile.scene.removeComponent(projectile);
+			}, 2000);
 		})
 	}
 	getCorrectedRotation(): RAPIER.Quaternion {
