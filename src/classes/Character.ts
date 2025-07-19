@@ -1,9 +1,12 @@
-import type { FRigidBodyOptions } from "@fibbojs/3d";
+import { FDirectionalLight, type FRigidBodyOptions } from "@fibbojs/3d";
 import { AnimationClip, AnimationMixer } from "three";
 import { FGLB } from "../fibbo/FGLB";
 import { CharacterController } from "./CharacterController";
 
 export default class Mage extends FGLB {
+	sun: FDirectionalLight;
+	static readonly MAGE_LAYER = 1; // Define a unique layer for the mage
+
 	constructor() {
 		super({
 			name: "mage",
@@ -13,6 +16,14 @@ export default class Mage extends FGLB {
 			textures: {
 				default: "/assets/mage/mage_texture.png",
 			},
+		});
+
+		// Create a sun dedicated to this character
+		this.sun = new FDirectionalLight({
+			position: { x: 10, y: 110, z: 10 },
+			color: 0xffffff,
+			intensity: 4,
+			shadowQuality: 16,
 		});
 
 		// Initialize the character controller
@@ -38,6 +49,11 @@ export default class Mage extends FGLB {
 			const bookOpenMesh = this.__MESH__.getObjectByName("Spellbook_open");
 			if (bookOpenMesh) {
 				bookOpenMesh.visible = false;
+			}
+			// Hide the hat
+			const hatMesh = this.__MESH__.getObjectByName("Mage_Hat");
+			if (hatMesh) {
+				hatMesh.visible = false;
 			}
 
 			/**
@@ -77,6 +93,15 @@ export default class Mage extends FGLB {
 				}
 			});
 		});
+	}
+
+	frame() {
+		this.sun.transform.position = {
+			x: this.transform.position.x + 10,
+			y: this.transform.position.y + 10,
+			z: this.transform.position.z + 10,
+		};
+		// this.sun.lookAt = this.transform.position;
 	}
 
 	initRigidBody(options?: FRigidBodyOptions) {

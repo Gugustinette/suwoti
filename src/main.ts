@@ -20,19 +20,25 @@ import { Island } from "./classes/island/Island";
 	await scene.initPhysics();
 	// Debug the scene
 	// @ts-ignore
-	// if (import.meta.env.DEV) fDebug(scene);
+	if (import.meta.env.DEV) fDebug(scene);
 
 	// Add directional light to represent the sun
 	const sun = new FDirectionalLight({
-		position: { x: 500, y: 300, z: 300 },
+		position: { x: 500, y: 400, z: 300 },
 		color: 0xffffff,
-		intensity: 5,
+		intensity: 2,
 		shadowQuality: 12,
 		lookAt: { x: 0, y: 50, z: 0 },
 	});
 	// Increase the shadow camera far plane
 	// @ts-ignore
-	sun.__LIGHT__.shadow.camera.far = 10000;
+	sun.__LIGHT__.shadow.camera.far = 1000;
+	// @ts-ignore
+	sun.__LIGHT__.shadow.camera.left = -1000;
+	// @ts-ignore
+	sun.__LIGHT__.shadow.camera.right = 1000;
+	// @ts-ignore
+	sun.__LIGHT__.shadow.camera.top = 1000;
 	// Add ambient light
 	new FAmbientLight({
 		color: 0x404040,
