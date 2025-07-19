@@ -8,7 +8,7 @@ export default class Mage extends FGLB {
 		super({
 			name: "mage",
 			path: "/assets/mage/Mage.glb",
-			position: { x: 0, y: 10, z: 0 },
+			position: { x: 480, y: 100, z: 280 },
 			scale: { x: 2, y: 2, z: 2 },
 			textures: {
 				default: "/assets/mage/mage_texture.png",

@@ -17,7 +17,6 @@ export class FGLB extends FModel {
 			this.path,
 			// Called when the resource is loaded
 			(gltf) => {
-				console.log(gltf);
 				// Get the mesh from the glTF scene
 				this.__MESH__ = gltf.scene;
 				// Get the animations from the glTF

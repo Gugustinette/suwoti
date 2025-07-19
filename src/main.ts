@@ -1,16 +1,15 @@
 import {
 	FAmbientLight,
 	FComponentEmpty,
-	FCuboid,
 	FDirectionalLight,
 	FGameCamera,
-	FRigidBodyType,
 	FScene,
 } from "@fibbojs/3d";
 import { fDebug } from "@fibbojs/devtools";
 import { FKeyboard } from "@fibbojs/event";
 import "./style.css";
 import Character from "./classes/Character";
+import { Island } from "./classes/island/Island";
 
 (async () => {
 	// Initialize the scene
@@ -21,11 +20,11 @@ import Character from "./classes/Character";
 	await scene.initPhysics();
 	// Debug the scene
 	// @ts-ignore
-	if (import.meta.env.DEV) fDebug(scene);
+	// if (import.meta.env.DEV) fDebug(scene);
 
 	// Add directional light to represent the sun
 	new FDirectionalLight({
-		position: { x: 20, y: 20, z: 0 },
+		position: { x: 480, y: 100, z: 280 },
 		color: 0xffffff,
 		intensity: 3,
 		shadowQuality: 12,
@@ -43,21 +42,16 @@ import Character from "./classes/Character";
 	});
 	deathZone.initCollider();
 
-	// Create a ground
-	const ground = new FCuboid({
-		position: { x: 0, y: -0.1, z: 0 },
-		scale: { x: 15, y: 0.1, z: 15 },
-		color: 0x348c31,
-	});
-	ground.initRigidBody({
-		rigidBodyType: FRigidBodyType.FIXED,
-	});
+	// Create the island
+	new Island();
 
 	// Create a character
 	const character = new Character();
 
 	// Attach a camera to the character
-	scene.camera = new FGameCamera({ target: character });
+	const camera = new FGameCamera({ target: character });
+	camera.controls.maxDistance = 1000;
+	scene.camera = camera;
 
 	// Add collision events
 	character.onCollisionWith(deathZone, () => {
