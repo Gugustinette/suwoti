@@ -1,6 +1,6 @@
 {
-	"recommendations": [
-		"ohziinteractivestudio.ohzi-vscode-glb-viewer",
-		"biomejs.biome"
-	]
+  "recommendations": [
+    "ohziinteractivestudio.ohzi-vscode-glb-viewer",
+    "biomejs.biome"
+  ]
 }
