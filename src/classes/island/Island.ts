@@ -1,6 +1,7 @@
 import { HexGrid } from "../../util/HexGrid";
 import { PerlinNoiseGenerator } from "../../util/PerlinNoiseGenerator";
 import HexGrassBottom from "./HexGrassBottom";
+import HexGrassUnder from "./HexGrassUnder";
 
 const GRID_SIZE = 50;
 const HEX_RADIUS = 6;
@@ -64,6 +65,11 @@ export class Island {
 					position: { x, y: noiseGrid[q][r] * 100, z },
 				});
 				this.grid.set({ q, r }, hex);
+
+				// Create a HexGrassUnder that will be place under the HexGrassBottom
+				new HexGrassUnder({
+					position: { x, y: noiseGrid[q][r] * 100 - 6, z },
+				});
 			}
 		}
 	}
