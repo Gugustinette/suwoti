@@ -1,8 +1,43 @@
 import * as RAPIER from "@dimforge/rapier3d";
-import { FCharacterControllerKP } from "@fibbojs/3d";
+import {FCharacterControllerKP, FCharacterControllerOptions} from "@fibbojs/3d";
 import * as THREE from "three";
+import Projectile from "./Projectile";
 
 export class CharacterController extends FCharacterControllerKP {
+	constructor(options: FCharacterControllerOptions) {
+		super(options);
+
+		window.addEventListener('mousedown', () => {
+			// Check if the character is ready
+			if (this.component.__MESH__ === undefined) {
+				console.error("Character model not loaded correctly.");
+				return;
+			}
+
+			const actualPosition = this.component.transform.position;
+			const rotation = this.component.transform.rotation;
+
+			const euler = new THREE.Euler(rotation.x, rotation.y, rotation.z);
+			const direction = new THREE.Vector3(0, 0, 1).applyEuler(euler).normalize();
+
+			const positionProjectile = {
+				x: actualPosition.x + direction.x * 3,
+				y: actualPosition.y + 1,
+				z: actualPosition.z + direction.z * 3,
+			};
+
+			const options = {
+				position: positionProjectile,
+				rotation: {
+					x: Math.PI / 2,
+					y: 0,
+					z: rotation.z < Math.PI ? rotation.y * -1 : Math.PI + rotation.y
+				}
+			}
+
+			new Projectile(options);
+		})
+	}
 	getCorrectedRotation(): RAPIER.Quaternion {
 		// Get the camera direction
 		const cameraDirection = this.scene.camera.getCameraDirection();
