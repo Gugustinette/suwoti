@@ -20,13 +20,13 @@ import { Island } from "./classes/island/Island";
 	await scene.initPhysics();
 	// Debug the scene
 	// @ts-ignore
-	// if (import.meta.env.DEV) fDebug(scene);
+	if (import.meta.env.DEV) fDebug(scene);
 
 	// Add directional light to represent the sun
 	new FDirectionalLight({
-		position: { x: 480, y: 100, z: 280 },
+		position: { x: 485, y: 100, z: 280 },
 		color: 0xffffff,
-		intensity: 3,
+		intensity: 5,
 		shadowQuality: 12,
 	});
 	// Add ambient light

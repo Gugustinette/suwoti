@@ -230,7 +230,7 @@ class PerlinNoiseGenerator {
 			for (let y = 0; y < this.height; y++) {
 				for (let x = 0; x < this.width; x++) {
 					const distance = Math.sqrt(
-						Math.pow(x - constraint.x, 2) + Math.pow(y - constraint.y, 2),
+						(x - constraint.x) ** 2 + (y - constraint.y) ** 2,
 					);
 
 					if (distance <= radius) {

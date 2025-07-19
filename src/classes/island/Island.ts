@@ -1,15 +1,25 @@
+import type { FScene } from "@fibbojs/3d";
+import * as THREE from "three";
 import { HexGrid } from "../../util/HexGrid";
 import { PerlinNoiseGenerator } from "../../util/PerlinNoiseGenerator";
 import HexGrassBottom from "./HexGrassBottom";
 import HexGrassUnder from "./HexGrassUnder";
+import { WaterArea } from "./WaterArea";
 
-const GRID_SIZE = 50;
+// const GRID_SIZE = 50;
+const GRID_SIZE = 10;
 const HEX_RADIUS = 6;
 
 export class Island {
 	grid: HexGrid<HexGrassBottom>;
 
 	constructor() {
+		// Get Fibbo scene
+		const fibboScene: FScene = globalThis.__FIBBO_ACTUAL_SCENE__;
+		// Make scene background light blue
+		fibboScene.scene.background = new THREE.Color(0x87ceeb);
+		// Create water area
+		new WaterArea(fibboScene.scene, 10000, { x: 480, y: 20, z: 280 });
 		// Initialize the hexagonal grid
 		this.grid = new HexGrid<HexGrassBottom>(GRID_SIZE, GRID_SIZE);
 
@@ -24,17 +34,27 @@ export class Island {
 		});
 		// Create an island shape by constraining the edges
 		const ISLAND_EDGE_CONSTRAINT_INFLUENCE = 0.4;
-		for (let i = 0; i <= 50; i++) {
+		for (let i = 0; i <= GRID_SIZE; i++) {
 			noiseGen.setConstraint(0, i, 0.0, ISLAND_EDGE_CONSTRAINT_INFLUENCE);
 		}
-		for (let i = 0; i <= 50; i++) {
+		for (let i = 0; i <= GRID_SIZE; i++) {
 			noiseGen.setConstraint(i, 0, 0.0, ISLAND_EDGE_CONSTRAINT_INFLUENCE);
 		}
-		for (let i = 0; i <= 50; i++) {
-			noiseGen.setConstraint(49, i, 0.0, ISLAND_EDGE_CONSTRAINT_INFLUENCE);
+		for (let i = 0; i <= GRID_SIZE; i++) {
+			noiseGen.setConstraint(
+				GRID_SIZE - 1,
+				i,
+				0.0,
+				ISLAND_EDGE_CONSTRAINT_INFLUENCE,
+			);
 		}
-		for (let i = 0; i <= 50; i++) {
-			noiseGen.setConstraint(i, 49, 0.0, ISLAND_EDGE_CONSTRAINT_INFLUENCE);
+		for (let i = 0; i <= GRID_SIZE; i++) {
+			noiseGen.setConstraint(
+				i,
+				GRID_SIZE - 1,
+				0.0,
+				ISLAND_EDGE_CONSTRAINT_INFLUENCE,
+			);
 		}
 		// Create a valley in the center
 		const VALLEY_RADIUS = 5;
@@ -59,8 +79,9 @@ export class Island {
 		// Populate the grid with HexGrassBottom instances
 		for (let q = 0; q < GRID_SIZE; q++) {
 			for (let r = 0; r < GRID_SIZE; r++) {
-				const x = hexWidth * (q + r / 2);
-				const z = hexHeight * r;
+				const x =
+					hexWidth * (q + r / 2) - hexWidth * (GRID_SIZE / 2 + GRID_SIZE / 4);
+				const z = hexHeight * r - hexHeight * (GRID_SIZE / 2);
 				const hex = new HexGrassBottom({
 					position: { x, y: noiseGrid[q][r] * 100, z },
 				});

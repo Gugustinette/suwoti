@@ -1,6 +1,6 @@
 import type { FRigidBodyOptions } from "@fibbojs/3d";
-import { FCachedGLB } from "../../fibbo/FCachedGLB";
 import * as THREE from "three";
+import { FCachedGLB } from "../../fibbo/FCachedGLB";
 
 interface HexGrassUnderOptions {
 	position?: { x: number; y: number; z: number };

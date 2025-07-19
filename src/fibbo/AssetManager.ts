@@ -1,7 +1,4 @@
-// src/utils/AssetManager.ts
-import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { AnimationClip, Group, Texture } from "three";
-import { TextureLoader } from "three"; // Keep TextureLoader for completeness if you need to load external textures
+import { type GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 interface CachedGLTF {
 	gltf: GLTF | null;
